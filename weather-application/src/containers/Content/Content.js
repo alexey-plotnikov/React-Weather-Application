@@ -13,12 +13,9 @@ class Content extends React.Component {
   }
 
   handleForecastType(type) {
-    
     this.setState({
       currentForecastType: type,
     });
-
-    // console.log(this.state.currentForecastType);
   }
 
   render() {

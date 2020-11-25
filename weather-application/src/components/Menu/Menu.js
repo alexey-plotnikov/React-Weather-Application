@@ -7,6 +7,8 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
 import "./Menu.css";
+import { MenuValues } from "common/menuValues";
+import { MenuConstants } from "common/constants";
 
 const Menu = (props) => {
   const { handleForecastType } = props;
@@ -18,18 +20,18 @@ const Menu = (props) => {
             <Button
               className="confirm-button"
               variant="secondary"
-              onClick={() => handleForecastType("1")}
+              onClick={() => handleForecastType(MenuValues.ONE_DAY_FORECAST)}
             >
-              1
+              {MenuConstants.ONE_DAY_FORECAST}
             </Button>
           </Col>
           <Col>
             <Button
               className="confirm-button"
               variant="secondary"
-              onClick={() => handleForecastType("2")}
+              onClick={() => handleForecastType(MenuValues.WEEK_FORECAST)}
             >
-              3+
+              {MenuConstants.WEEK_FORECAST}
             </Button>
           </Col>
         </Row>
