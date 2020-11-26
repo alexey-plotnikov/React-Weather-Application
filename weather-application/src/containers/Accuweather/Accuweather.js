@@ -9,7 +9,7 @@ class Accuweather extends React.Component {
       customers: [],
       predictedTempRecords: [],
       actualTempRecords: [],
-      forecastErrorsRecords: [],
+      forecastRatingRecords: [],
     };
   }
 
@@ -22,11 +22,6 @@ class Accuweather extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.forecastType !== prevProps.forecastType) {
-      // fetch("/api/models/" + this.props.forecastType + "")
-      //   .then((res) => res.json())
-      //   .then((customers) =>
-      //     this.setState({ customers: customers }, () => console.log(customers))
-      //   );
       this.test();
     }
   }
@@ -45,14 +40,19 @@ class Accuweather extends React.Component {
     fetch("/api/actualTemp/")
       .then((res) => res.json())
       .then((actualTempRecords) =>
-        this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log(actualTempRecords)
-        )
+        this.setState({ actualTempRecords: actualTempRecords }, () => {
+          console.log(actualTempRecords);
+        })
       );
   }
 
   test() {
-    const { predictedTempRecords, actualTempRecords } = this.state;
+    const {
+      predictedTempRecords,
+      actualTempRecords,
+      forecastRatingRecords,
+    } = this.state;
+
     let forecastErrorsArray = [];
 
     predictedTempRecords.forEach((pTempRec) => {
@@ -74,10 +74,28 @@ class Accuweather extends React.Component {
       });
     });
 
-    console.log(forecastErrorsArray);
+    this.setState(
+      {
+        forecastRatingRecords: forecastErrorsArray,
+      },
+      () => {
+        this.test2();
+      }
+    );
+  }
 
-    this.setState({
-      forecastErrorsRecords: forecastErrorsArray,
+  test2() {
+    const { forecastRatingRecords } = this.state;
+    console.log(forecastRatingRecords);
+
+    forecastRatingRecords.forEach((forecastRatingRec) => {
+      fetch("/api/forecastRating/", {
+        method: "put",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(forecastRatingRec),
+      });
     });
   }
 
