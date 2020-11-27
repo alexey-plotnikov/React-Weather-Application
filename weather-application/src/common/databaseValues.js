@@ -18,6 +18,8 @@ export const ActualTemp = {
 export const ForecastRating = {
     TABLE_NAME: "forecast_rating",
     FORECAST_ID: "forecast_rating.forecast_id",
-    TEMP_MAX_ERROR: "forecast_rating.temp_max_error",
-    TEMP_MIN_ERROR: "forecast_rating.temp_min_error"
+    TEMP_MAX_DELTA: "forecast_rating.temp_max_delta",
+    TEMP_MIN_DELTA: "forecast_rating.temp_min_delta",
+    RATING_MAX: "forecast_rating.rating_max",
+    RATING_MIN: "forecast_rating.rating_min",
 }

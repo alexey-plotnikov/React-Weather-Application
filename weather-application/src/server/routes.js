@@ -6,7 +6,7 @@ import pool from "./db/connection.js";
 import allRecords from "./db/models.js";
 import predictedTempRecords from "./db/predictedTemp.js";
 import actualTempRecords from "./db/actualTemp.js";
-import insertForecastRatingRecord from "./db/forecastRating.js";
+import forecastRating from "./db/forecastRating.js";
 
 var app = express();
 
@@ -34,17 +34,8 @@ router.get("/api/actualTemp/", async (req, res) => {
 });
 
 router.put("/api/forecastRating/", jsonParser, async (req, res) => {
-  pool.query(
-    `INSERT INTO forecast_rating (forecast_id, temp_max_error) 
-    VALUES (${req.body.forecast_id}, ${req.body.temp_max_error}) ON DUPLICATE KEY UPDATE temp_max_error=${req.body.temp_max_error}`,
-    function (err, data) {
-      if (err) return console.log(err);
-      res.redirect("/");
-    }
-  );
-  // console.log(req.body);
-  // let response = await insertForecastRatingRecord();
-  // res.send(response);
+  let response = await forecastRating.insertForecastRatingRecord(req.body);
+  res.send(response);
 });
 
 export default router;

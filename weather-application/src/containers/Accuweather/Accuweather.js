@@ -17,7 +17,6 @@ class Accuweather extends React.Component {
     // fetch("/api/predictedTemp/" + this.props.forecastType + "")
     this.getPredictedTempRecords();
     this.getActualTempRecords();
-    this.test();
   }
 
   componentDidUpdate(prevProps) {
@@ -58,16 +57,18 @@ class Accuweather extends React.Component {
     predictedTempRecords.forEach((pTempRec) => {
       actualTempRecords.some((aTempRec) => {
         if (aTempRec.forecast_id === pTempRec.forecast_id) {
+          let tempMaxError = Math.abs(
+            aTempRec.actual_temp_max - pTempRec.predicted_temp_max
+          );
+          let tempMinError = Math.abs(
+            aTempRec.actual_temp_min - pTempRec.predicted_temp_min
+          );
           forecastErrorsArray.push({
             forecast_id: pTempRec.forecast_id,
-            temp_max_error: Math.abs(
-              aTempRec.actual_temp_max - pTempRec.predicted_temp_max
-            ),
-            temp_min_error: Math.abs(
-              aTempRec.actual_temp_min - pTempRec.predicted_temp_min
-            ),
-            rating_max: null,
-            rating_min: null,
+            temp_max_delta: tempMaxError,
+            temp_min_delta: tempMinError,
+            rating_max: this.getForecastRating(tempMaxError),
+            rating_min:  this.getForecastRating(tempMinError),
           });
         }
         return 0;
@@ -86,7 +87,6 @@ class Accuweather extends React.Component {
 
   test2() {
     const { forecastRatingRecords } = this.state;
-    console.log(forecastRatingRecords);
 
     forecastRatingRecords.forEach((forecastRatingRec) => {
       fetch("/api/forecastRating/", {
@@ -97,6 +97,22 @@ class Accuweather extends React.Component {
         body: JSON.stringify(forecastRatingRec),
       });
     });
+  }
+
+  getForecastRating(temp) {
+    let tempRating = 0;
+    if (temp <= "1.5") {
+      tempRating = 5;
+      return tempRating;
+    } else if (temp <= "2.5") {
+      tempRating = 4;
+    } else if (temp <= "1.5") {
+      tempRating = 3;
+    } else {
+      tempRating = 2;
+    }
+    console.log(tempRating)
+    return tempRating;
   }
 
   render() {
