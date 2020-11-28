@@ -1,25 +1,53 @@
 import pool from "./connection.js";
+import {
+  PredictedTemp,
+  ForecastRating,
+  ModelsRating,
+} from "../../common/databaseValues.js";
 
 const table = "models";
 
-const allRecords = async (params) => {
+const modelsRating = async (params) => {
   return new Promise((resolve, reject) => {
-    // pool.query(
-    //   `select models.model_id, models.model_name, ` +
-    //     `forecast_type_id, forecast_type.type_description, DATE_FORMAT(predicted_temp.forecast_date, "%M %d %Y") as date ` +
-    //     `from models, predicted_temp, forecast_type ` +
-    //     `WHERE models.model_id = predicted_temp.model_id ` +
-    //     `AND predicted_temp.forecast_type_id = forecast_type.type_id ` +
-    //     `AND predicted_temp.model_id = 1 AND forecast_type_id = ${params.id}`,
-    //   (err, result) => {
-    //     if (err) {
-    //       return reject(err);
-    //     } else {
-    //       return resolve(result);
-    //     }
-    //   }
-    // );
+    pool.query(
+      `insert into ${ModelsRating.TABLE_NAME} 
+      (
+        model_id, 
+        forecast_type_id, 
+        ${ModelsRating.AVG_MAX_TEMP_DELTA}, 
+        ${ModelsRating.AVG_MIN_TEMP_DELTA}, 
+        ${ModelsRating.AVG_MAX_TEMP_RATING},
+        ${ModelsRating.AVG_MIN_TEMP_RATING}) 
+      select result.model_id, 
+      result.forecast_type_id, 
+      result.avg_max_temp_delta, 
+      result.avg_min_temp_delta, 
+      result.avg_max_temp_rating, 
+      result.avg_min_temp_rating
+      from (select 
+        ${PredictedTemp.MODEL_ID}, 
+        ${PredictedTemp.FORECAST_TYPE_ID}, 
+        avg(${ForecastRating.TEMP_MAX_DELTA}) as avg_max_temp_delta, 
+        avg(${ForecastRating.TEMP_MIN_DELTA}) as avg_min_temp_delta, 
+        avg(${ForecastRating.RATING_MAX}) as avg_max_temp_rating, 
+        avg(${ForecastRating.RATING_MIN}) as avg_min_temp_rating 
+        from ${PredictedTemp.TABLE_NAME}, ${ForecastRating.TABLE_NAME} 
+      where ${PredictedTemp.FORECAST_ID} = ${ForecastRating.FORECAST_ID} group by model_id, forecast_type_id) as result
+      on duplicate key update 
+      avg_max_temp_delta = result.avg_max_temp_delta, 
+      avg_min_temp_delta = result.avg_min_temp_delta, 
+      avg_max_temp_rating = result.avg_max_temp_rating, 
+      avg_min_temp_rating = result.avg_min_temp_rating`,
+      (err, result) => {
+        if (err) {
+          return reject(err);
+        } else {
+          console.log('NEW RECORD TO TABLE MODELS RATING HAS BEEN ADDED')
+          return resolve(result);
+        }
+      }
+    );
   });
 };
 
-export default allRecords;
+export default modelsRating;

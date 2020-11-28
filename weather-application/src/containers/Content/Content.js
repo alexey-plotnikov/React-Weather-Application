@@ -1,6 +1,7 @@
 import React from "react";
 
 import Accuweather from "containers/Accuweather/Accuweather";
+import Wunderground from "containers/Wunderground/Wunderground";
 import Menu from "components/Menu/Menu";
 
 class Content extends React.Component {
@@ -24,6 +25,7 @@ class Content extends React.Component {
       <div>
         <Menu handleForecastType={(type) => this.handleForecastType(type)} />
         <Accuweather forecastType={currentForecastType} />
+        <Wunderground forecastType={currentForecastType} />
       </div>
     );
   }
