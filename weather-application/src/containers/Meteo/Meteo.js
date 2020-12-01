@@ -4,13 +4,15 @@ import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
 import { ModelsValues } from "common/databaseValues";
 
-class Wunderground extends React.Component {
+class Meteo extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      customers: [],
       predictedTempRecords: [],
       actualTempRecords: [],
       forecastRatingRecords: [],
+      modelsRatingRecords: [],
     };
   }
 
@@ -27,20 +29,20 @@ class Wunderground extends React.Component {
 
   getPredictedTempRecords() {
     new ModelService()
-      .getPredictedTempRecords(ModelsValues.WUNDERGROUND)
+      .getPredictedTempRecords(ModelsValues.METEOUA)
       .then((predictedTempRecords) => {
         this.setState({ predictedTempRecords: predictedTempRecords }, () =>
-          console.log("WUNDER PREDICTED TEMP: ", this.state.predictedTempRecords)
+          console.log("METEO PREDICTED TEMP: ", this.state.predictedTempRecords)
         );
       });
   }
 
   getActualTempRecords() {
     new ModelService()
-      .getActualTempRecords(ModelsValues.WUNDERGROUND)
+      .getActualTempRecords(ModelsValues.METEOUA)
       .then((actualTempRecords) => {
         this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log("WUNDER ACTUAL TEMP: ", this.state.actualTempRecords)
+          console.log("METEO ACTUAL TEMP: ", this.state.actualTempRecords)
         );
       });
   }
@@ -63,20 +65,45 @@ class Wunderground extends React.Component {
     );
   }
 
-  insertForecastRatingRecords() {
+  insertForecastRatingRecords = () => {
     const { forecastRatingRecords } = this.state;
 
     new ModelService().insertForecastRatingRecords(forecastRatingRecords);
-  }
+
+    this.insertModelsRatingRecords();
+  };
+
+  insertModelsRatingRecords = () => {
+    new ModelService().insertModelsRatingRecords();
+
+    this.getModelsRatingRecords();
+  };
+
+  getModelsRatingRecords = () => {
+    new ModelService()
+      .getModelsRatingRecords(ModelsValues.METEOUA)
+      .then((modelsRatingRecords) =>
+        new ModelService().getModelsRatingRecords(ModelsValues.METEOUA)
+      )
+      .then((modelsRatingRecords) => {
+        this.setState({ modelsRatingRecords: modelsRatingRecords }, () =>
+          console.log(
+            "METEO modelsRatingRecords: ",
+            this.state.modelsRatingRecords
+          )
+        );
+      });
+  };
 
   render() {
-    const { customers } = this.state;
+    const { modelsRatingRecords } = this.state;
     return (
       <div>
-        This is a Wunderground component
+        This is a Meteo component
+        <Model modelsRatingRecords={modelsRatingRecords} />
       </div>
     );
   }
 }
 
-export default Wunderground;
+export default Meteo;

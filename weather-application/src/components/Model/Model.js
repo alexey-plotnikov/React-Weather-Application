@@ -1,21 +1,22 @@
 import React from "react";
 
 const Model = (props) => {
-  const { customers } = props;
+  const { modelsRatingTable } = props;
 
   return (
     <div>
       <ul className="user-list">
-        {customers.map(
+        {modelsRatingTable.map(
           ({
             model_id,
-            model_name,
-            forecast_date,
             forecast_type_id,
-            type_description,
+            avg_max_temp_delta,
+            avg_min_temp_delta,
+            avg_max_temp_rating,
+            avg_min_temp_rating
           }) => (
-            <li key={(model_id, forecast_date, forecast_type_id)}>
-              {model_id} {model_name} {forecast_date} {type_description}
+            <li key={(model_id, forecast_type_id)}>
+              {avg_max_temp_delta} {avg_min_temp_delta} {avg_max_temp_rating} {avg_min_temp_rating}
             </li>
           )
         )}

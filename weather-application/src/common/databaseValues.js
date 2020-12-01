@@ -41,10 +41,10 @@ export const ModelsRating = {
 }
 
 export const ModelsValues = {
-  ACCUWEATHER: "1",
-  WUNDERGROUND: "2",
-  METEOUA: "3",
-  OPENWEATHERMAP: "4",
-  YRNO: "5",
-  YANDEXPOGODA: "6"
+  ACCUWEATHER: 1,
+  WUNDERGROUND: 2,
+  METEOUA: 3,
+  OPENWEATHERMAP: 4,
+  YRNO: 5,
+  YANDEXPOGODA: 6
 };

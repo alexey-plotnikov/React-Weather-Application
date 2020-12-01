@@ -16,7 +16,6 @@ const predictedTempRecords = async (params) => {
         ${PredictedTemp.TABLE_NAME}, 
         ${Models.TABLE_NAME}
         WHERE 
-        ${PredictedTemp.MODEL_ID} = ${params.modelId} AND 
         ${Models.MODEL_ID} = ${PredictedTemp.MODEL_ID}`,
       (err, result) => {
         if (err) {

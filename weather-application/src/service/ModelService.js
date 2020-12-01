@@ -1,75 +1,27 @@
 import React from "react";
+import predictedTempRecords from "server/db/predictedTemp";
 
 class ModelService extends React.Component {
-  predictedTempRecords(modelId) {
-    return fetch("/api/predictedTemp/" + modelId).then((res) => res.json());
+  sortPredictedTempTable(predictedTempTable, modelId) {
+    let result = predictedTempTable.filter(
+      (record) => record.model_id === modelId
+    );
+
+    return result;
   }
 
-  actualTempRecords(modelId) {
-    return fetch("/api/actualTemp/" + modelId).then((res) => res.json());
+  sortActualTempTable(actualTempTable, modelId) {
+    let result = actualTempTable.filter((record) => record.model_id == modelId);
+
+    return result;
   }
 
-  tempDeltaCalculation(predictedTempRecords, actualTempRecords) {
-    let forecastErrorsArray = [];
+  sortModelsRatingTable(modelsRatingTable, modelId) {
+    let result = modelsRatingTable.filter(
+      (record) => record.model_id == modelId
+    );
 
-    predictedTempRecords.forEach((pTempRec) => {
-      actualTempRecords.some((aTempRec) => {
-        if (aTempRec.forecast_id === pTempRec.forecast_id) {
-          let tempMaxError = Math.abs(
-            aTempRec.actual_temp_max - pTempRec.predicted_temp_max
-          );
-          let tempMinError = Math.abs(
-            aTempRec.actual_temp_min - pTempRec.predicted_temp_min
-          );
-          forecastErrorsArray.push({
-            forecast_id: pTempRec.forecast_id,
-            temp_max_delta: tempMaxError,
-            temp_min_delta: tempMinError,
-            rating_max: this.forecastRating(tempMaxError),
-            rating_min: this.forecastRating(tempMinError),
-          });
-        }
-        return 0;
-      });
-    });
-
-    console.log("ARRAY:", forecastErrorsArray);
-    return forecastErrorsArray;
-  }
-
-  forecastRating(temp) {
-    let tempRating = 0;
-
-    if (temp <= "1.5") {
-      return (tempRating = 5);
-    } else if (temp <= "2.5") {
-      return (tempRating = 4);
-    } else if (temp <= "1.5") {
-      return (tempRating = 3);
-    } else {
-      return (tempRating = 2);
-    }
-  }
-
-  forecastRatingRecords(forecastRatingRecords) {
-    forecastRatingRecords.forEach((forecastRatingRec) => {
-      fetch("/api/forecastRating/", {
-        method: "put",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(forecastRatingRec),
-      });
-    });
-  }
-
-  modelsRatingRecords() {
-    fetch("/api/modelsRating/", {
-      method: "put",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    return result;
   }
 }
 

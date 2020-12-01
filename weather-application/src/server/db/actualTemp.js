@@ -21,8 +21,7 @@ const actualTempRecords = async (params) => {
         ${Models.TABLE_NAME}
         WHERE 
         ${PredictedTemp.FORECAST_ID} = ${ActualTemp.FORECAST_ID} AND 
-        ${Models.MODEL_ID} = ${PredictedTemp.MODEL_ID} AND 
-        ${PredictedTemp.MODEL_ID} = ${params.modelId}`,
+        ${Models.MODEL_ID} = ${PredictedTemp.MODEL_ID}`,
       (err, result) => {
         if (err) {
           return reject(err);

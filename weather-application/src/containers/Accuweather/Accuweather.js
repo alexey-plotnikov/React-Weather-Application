@@ -2,85 +2,80 @@ import React from "react";
 
 import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
-import { ModelsValues } from "common/databaseValues";
+import { ModelsValues, PredictedTemp } from "common/databaseValues";
+import models from "server/db/models";
 
 class Accuweather extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       customers: [],
-      predictedTempRecords: [],
-      actualTempRecords: [],
-      forecastRatingRecords: [],
+      predictedTempTable: this.props.predictedTempTable,
+      actualTempTable: this.props.actualTempTable,
+      modelsRatingTable: this.props.modelsRatingTable,
     };
   }
 
-  componentDidMount() {
-    this.getPredictedTempRecords();
-    this.getActualTempRecords();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
-    if (this.props.forecastType !== prevProps.forecastType) {
-      this.tempDeltaCalculation();
+    if (this.props !== prevProps) {
+      // let result = predictedTempTable.filter(
+      //   (record) => record.model_id === modelId
+      // );
+      this.sortPredictedTempTable();
+      this.sortActualTempTable();
+      this.sortModelsRaitingTable();
     }
   }
 
-  getPredictedTempRecords() {
-    new ModelService()
-      .predictedTempRecords(ModelsValues.ACCUWEATHER)
-      .then((predictedTempRecords) => {
-        this.setState({ predictedTempRecords: predictedTempRecords }, () =>
-          console.log("PREDICTED TEMP: ", this.state.predictedTempRecords)
-        );
-      });
-  }
-
-  getActualTempRecords() {
-    new ModelService()
-      .actualTempRecords(ModelsValues.ACCUWEATHER)
-      .then((actualTempRecords) => {
-        this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log("ACTUAL TEMP: ", this.state.actualTempRecords)
-        );
-      });
-  }
-
-  tempDeltaCalculation() {
-    const { predictedTempRecords, actualTempRecords } = this.state;
-
-    let forecastErrorsArray = new ModelService().tempDeltaCalculation(
-      predictedTempRecords,
-      actualTempRecords
-    );
+  sortPredictedTempTable() {
+    const { predictedTempTable } = this.props;
 
     this.setState(
       {
-        forecastRatingRecords: forecastErrorsArray,
+        predictedTempTable: new ModelService().sortPredictedTempTable(
+          predictedTempTable,
+          ModelsValues.ACCUWEATHER
+        ),
       },
-      () => {
-        this.insertForecastRatingRecords();
-        this.insertModelsRatingRecords();
-      }
+      () => console.log("predictedTempRecords: ", this.state.predictedTempTable)
     );
   }
 
-  insertForecastRatingRecords() {
-    const { forecastRatingRecords } = this.state;
+  sortActualTempTable() {
+    const { actualTempTable } = this.props;
 
-    new ModelService().forecastRatingRecords(forecastRatingRecords);
+    this.setState(
+      {
+        actualTempTable: new ModelService().sortActualTempTable(
+          actualTempTable,
+          ModelsValues.ACCUWEATHER
+        ),
+      },
+      () => console.log("actualTempTable: ", this.state.actualTempTable)
+    );
   }
 
-  insertModelsRatingRecords() {
-    new ModelService().modelsRatingRecords();
+  sortModelsRaitingTable() {
+    const { modelsRatingTable } = this.props;
+    this.setState(
+      {
+        modelsRatingTable: new ModelService().sortModelsRatingTable(
+          modelsRatingTable,
+          ModelsValues.ACCUWEATHER
+        ),
+      },
+      () => console.log("modelsRatingTable: ", this.state.modelsRatingTable)
+    );
   }
 
   render() {
-    const { customers } = this.state;
+    const { modelsRatingTable } = this.state;
     return (
       <div>
         This is a accuweather component
-        <Model customers={customers} />
+        <Model modelsRatingTable={modelsRatingTable} />
       </div>
     );
   }

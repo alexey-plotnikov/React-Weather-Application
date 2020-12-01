@@ -17,7 +17,7 @@ const getForecastRatingRecords = async (params) => {
 const insertForecastRatingRecord = (params) => {
   return new Promise((resolve, reject) => {
     pool.query(
-    `INSERT INTO  ${ForecastRating.TABLE_NAME} (
+      `INSERT INTO  ${ForecastRating.TABLE_NAME} (
       ${ForecastRating.FORECAST_ID}, 
       ${ForecastRating.TEMP_MAX_DELTA}, 
       ${ForecastRating.TEMP_MIN_DELTA}, 
@@ -38,7 +38,6 @@ const insertForecastRatingRecord = (params) => {
         if (err) {
           return reject(err);
         } else {
-          console.log("New record has been added to the table;");
           return resolve(result);
         }
       }

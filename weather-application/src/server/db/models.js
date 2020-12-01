@@ -5,9 +5,22 @@ import {
   ModelsRating,
 } from "../../common/databaseValues.js";
 
-const table = "models";
+const getModelsRating = async (params) => {
+  return new Promise((resolve, reject) => {
+    pool.query(
+      `select * from models_rating`,
+      (err, result) => {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(result);
+        }
+      }
+    );
+  });
+};
 
-const modelsRating = async (params) => {
+const insertModelsRating = async (params) => {
   return new Promise((resolve, reject) => {
     pool.query(
       `insert into ${ModelsRating.TABLE_NAME} 
@@ -42,7 +55,7 @@ const modelsRating = async (params) => {
         if (err) {
           return reject(err);
         } else {
-          console.log('NEW RECORD TO TABLE MODELS RATING HAS BEEN ADDED')
+          console.log("NEW RECORD TO TABLE MODELS RATING HAS BEEN ADDED");
           return resolve(result);
         }
       }
@@ -50,4 +63,4 @@ const modelsRating = async (params) => {
   });
 };
 
-export default modelsRating;
+export default { getModelsRating, insertModelsRating };
