@@ -2,9 +2,9 @@ import React from "react";
 
 import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
-import { ModelsValues, PredictedTemp } from "common/databaseValues";
+import { ModelsValues } from "common/databaseValues";
 
-class Accuweather extends React.Component {
+class YandexPogoda extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,7 +32,7 @@ class Accuweather extends React.Component {
       {
         predictedTempTable: new ModelService().sortPredictedTempTable(
           predictedTempTable,
-          ModelsValues.ACCUWEATHER
+          ModelsValues.YANDEXPOGODA
         ),
       }
     );
@@ -45,7 +45,7 @@ class Accuweather extends React.Component {
       {
         actualTempTable: new ModelService().sortActualTempTable(
           actualTempTable,
-          ModelsValues.ACCUWEATHER
+          ModelsValues.YANDEXPOGODA
         ),
       }
     );
@@ -57,7 +57,7 @@ class Accuweather extends React.Component {
       {
         modelsRatingTable: new ModelService().sortModelsRatingTable(
           modelsRatingTable,
-          ModelsValues.ACCUWEATHER
+          ModelsValues.YANDEXPOGODA
         ),
       }
     );
@@ -73,4 +73,4 @@ class Accuweather extends React.Component {
   }
 }
 
-export default Accuweather;
+export default YandexPogoda;

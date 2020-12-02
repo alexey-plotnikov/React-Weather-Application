@@ -4,6 +4,12 @@ export const Models = {
   MODEL_NAME: "models.model_name",
 };
 
+export const ForecastType = {
+  TABLE_NAME: "forecast_type",
+  FORECAST_TYPE_ID: "forecast_type.type_id",
+  FORECAST_TYPE_DESCRIPTION: "forecast_type.type_description"
+}
+
 export const PredictedTemp = {
   TABLE_NAME: "predicted_temp",
   FORECAST_ID: "predicted_temp.forecast_id",

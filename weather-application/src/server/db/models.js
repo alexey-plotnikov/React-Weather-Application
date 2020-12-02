@@ -1,5 +1,7 @@
 import pool from "./connection.js";
 import {
+  Models,
+  ForecastType,
   PredictedTemp,
   ForecastRating,
   ModelsRating,
@@ -8,7 +10,22 @@ import {
 const getModelsRating = async (params) => {
   return new Promise((resolve, reject) => {
     pool.query(
-      `select * from models_rating`,
+      `select 
+      ${ModelsRating.MODEL_ID}, 
+      ${ModelsRating.FORECAST_TYPE_ID}, 
+      ${Models.MODEL_NAME}, 
+      ${ForecastType.FORECAST_TYPE_DESCRIPTION}, 
+      ${ModelsRating.AVG_MAX_TEMP_DELTA}, 
+      ${ModelsRating.AVG_MIN_TEMP_DELTA}, 
+      ${ModelsRating.AVG_MAX_TEMP_RATING}, 
+      ${ModelsRating.AVG_MIN_TEMP_RATING}
+      from 
+      ${ModelsRating.TABLE_NAME}, 
+      ${Models.TABLE_NAME}, 
+      ${ForecastType.TABLE_NAME} 
+      where 
+      ${ModelsRating.MODEL_ID} = ${Models.MODEL_ID} AND 
+      ${ModelsRating.FORECAST_TYPE_ID} = ${ForecastType.FORECAST_TYPE_ID}`,
       (err, result) => {
         if (err) {
           return reject(err);
@@ -55,7 +72,6 @@ const insertModelsRating = async (params) => {
         if (err) {
           return reject(err);
         } else {
-          console.log("NEW RECORD TO TABLE MODELS RATING HAS BEEN ADDED");
           return resolve(result);
         }
       }

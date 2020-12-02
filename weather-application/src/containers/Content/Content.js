@@ -4,7 +4,10 @@ import Accuweather from "containers/Accuweather/Accuweather";
 import Wunderground from "containers/Wunderground/Wunderground";
 import Meteo from "containers/Meteo/Meteo";
 import OpenWeatherMap from "containers/OpenWeatherMap/OpenWeatherMap";
+import Yrno from "containers/Yr.no/YrNo";
+
 import Menu from "components/Menu/Menu";
+import YandexPogoda from "containers/Yandex.Pogoda/YandexPogoda";
 
 class Content extends React.Component {
   constructor() {
@@ -44,11 +47,15 @@ class Content extends React.Component {
     })
       .then((response) => response.json())
       .then((jsonData) => {
-        this.setState({
-          actualTempTable: jsonData,
-        });
-        this.sortForecastRating();
-        this.insertModelsRatingRecords();
+        this.setState(
+          {
+            actualTempTable: jsonData,
+          },
+          async () => {
+            this.sortForecastRating();
+            this.insertModelsRatingRecords();
+          }
+        );
       })
       .catch((error) => {
         console.error(error);
@@ -171,9 +178,31 @@ class Content extends React.Component {
           modelsRatingTable={modelsRatingTable}
           forecastType={currentForecastType}
         />
-        {/* <Meteo forecastType={currentForecastType} />
-        <Wunderground forecastType={currentForecastType} />
-        <OpenWeatherMap forecastType={currentForecastType} /> */}
+        <Wunderground
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+          modelsRatingTable={modelsRatingTable}
+        />
+        <Meteo
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+          modelsRatingTable={modelsRatingTable}
+        />
+        <OpenWeatherMap
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+          modelsRatingTable={modelsRatingTable}
+        />
+        <Yrno
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+          modelsRatingTable={modelsRatingTable}
+        />
+        <YandexPogoda
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+          modelsRatingTable={modelsRatingTable}
+        />
       </div>
     );
   }

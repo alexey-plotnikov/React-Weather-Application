@@ -1,0 +1,25 @@
+.model {
+    border: 2px solid black;
+    font-family: sans-serif;
+    margin-bottom: 30px;
+}
+
+.model__table-item {
+    border-collapse: collapse;
+    margin: 5px 0;
+    font-size: 0.9em;
+    min-height: 40px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+
+}
+
+.model__table-item:hover{
+    font-weight: bold;
+    color: #009879;
+}
+
+.model__table-item__col {
+}
+

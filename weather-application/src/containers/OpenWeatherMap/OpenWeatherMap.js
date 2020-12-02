@@ -9,90 +9,65 @@ class OpenWeatherMap extends React.Component {
     super(props);
     this.state = {
       customers: [],
-      predictedTempRecords: [],
-      actualTempRecords: [],
-      forecastRatingRecords: [],
-      modelsRatingRecords: [],
+      predictedTempTable: [],
+      actualTempTable: [],
+      modelsRatingTable: [],
     };
   }
 
-  componentDidMount() {
-    this.getPredictedTempRecords();
-    this.getActualTempRecords();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
-    if (this.props.forecastType !== prevProps.forecastType) {
-      this.tempDeltaCalculation();
+    if (this.props !== prevProps) {
+      this.sortPredictedTempTable();
+      this.sortActualTempTable();
+      this.sortModelsRaitingTable();
     }
   }
 
-  getPredictedTempRecords() {
-    new ModelService()
-      .getPredictedTempRecords(ModelsValues.OPENWEATHERMAP)
-      .then((predictedTempRecords) => {
-        this.setState({ predictedTempRecords: predictedTempRecords }, () =>
-          console.log("OPENWEATHERMAP PREDICTED TEMP: ", this.state.predictedTempRecords)
-        );
-      });
-  }
-
-  getActualTempRecords() {
-    new ModelService()
-      .getActualTempRecords(ModelsValues.OPENWEATHERMAP)
-      .then((actualTempRecords) => {
-        this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log("OPENWEATHERMAP ACTUAL TEMP: ", this.state.actualTempRecords)
-        );
-      });
-  }
-
-  tempDeltaCalculation() {
-    const { predictedTempRecords, actualTempRecords } = this.state;
-
-    let forecastErrorsArray = new ModelService().calculateTempDelta(
-      predictedTempRecords,
-      actualTempRecords
-    );
+  sortPredictedTempTable() {
+    const { predictedTempTable } = this.props;
 
     this.setState(
       {
-        forecastRatingRecords: forecastErrorsArray,
-      },
-      () => {
-        this.insertForecastRatingRecords();
-        this.insertModelsRatingRecords();
-        this.getModelsRatingRecords();
+        predictedTempTable: new ModelService().sortPredictedTempTable(
+          predictedTempTable,
+          ModelsValues.OPENWEATHERMAP
+        ),
       }
     );
   }
 
-  insertForecastRatingRecords() {
-    const { forecastRatingRecords } = this.state;
+  sortActualTempTable() {
+    const { actualTempTable } = this.props;
 
-    new ModelService().insertForecastRatingRecords(forecastRatingRecords);
+    this.setState(
+      {
+        actualTempTable: new ModelService().sortActualTempTable(
+          actualTempTable,
+          ModelsValues.OPENWEATHERMAP
+        ),
+      }
+    );
   }
 
-  insertModelsRatingRecords() {
-    new ModelService().insertModelsRatingRecords();
-  }
-
-  getModelsRatingRecords() {
-    new ModelService()
-      .getModelsRatingRecords(ModelsValues.OPENWEATHERMAP)
-      .then((modelsRatingRecords) => {
-        this.setState({ modelsRatingRecords: modelsRatingRecords }, () =>
-          console.log("OPENWEATHERMAP modelsRatingRecords: ", this.state.modelsRatingRecords)
-        );
-      });
+  sortModelsRaitingTable() {
+    const { modelsRatingTable } = this.props;
+    this.setState(
+      {
+        modelsRatingTable: new ModelService().sortModelsRatingTable(
+          modelsRatingTable,
+          ModelsValues.OPENWEATHERMAP
+        ),
+      }
+    );
   }
 
   render() {
-    const { customers } = this.state;
+    const { modelsRatingTable } = this.state;
     return (
       <div>
-        This is a accuweather component
-        <Model customers={customers} />
+        <Model modelsRatingTable={modelsRatingTable} />
       </div>
     );
   }

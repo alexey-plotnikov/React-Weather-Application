@@ -8,13 +8,13 @@ import Button from "react-bootstrap/Button";
 
 import "./Menu.css";
 import { MenuValues } from "common/menuValues";
-import { MenuConstants } from "common/constants";
+import { MenuConstants, ModelConstants } from "common/constants";
 
 const Menu = (props) => {
   const { handleForecastType } = props;
   return (
     <div>
-      <Container>
+      <Container fluid className="menu">
         <Row>
           <Col xs={6}>
             <Button
@@ -34,6 +34,13 @@ const Menu = (props) => {
               {MenuConstants.WEEK_FORECAST}
             </Button>
           </Col>
+        </Row>
+        <Row className="menu__table-header">
+          <Col>{ModelConstants.FORECAST_TYPE_DESCRIPTION}</Col>
+          <Col>{ModelConstants.AVG_TEMP_MAX_DELTA}</Col>
+          <Col>{ModelConstants.AVG_TEMP_MIN_DELTA}</Col>
+          <Col>{ModelConstants.AVG_MAX_TEMP_RATING}</Col>
+          <Col>{ModelConstants.AVG_MIN_TEMP_RATING}</Col>
         </Row>
       </Container>
     </div>

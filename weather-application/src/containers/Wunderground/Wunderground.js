@@ -2,78 +2,72 @@ import React from "react";
 
 import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
-import { ModelsValues } from "common/databaseValues";
+import { ModelsValues, PredictedTemp } from "common/databaseValues";
 
 class Wunderground extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      predictedTempRecords: [],
-      actualTempRecords: [],
-      forecastRatingRecords: [],
+      customers: [],
+      predictedTempTable: [],
+      actualTempTable: [],
+      modelsRatingTable: [],
     };
   }
 
-  componentDidMount() {
-    this.getPredictedTempRecords();
-    this.getActualTempRecords();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
-    if (this.props.forecastType !== prevProps.forecastType) {
-      this.tempDeltaCalculation();
+    if (this.props !== prevProps) {
+      this.sortPredictedTempTable();
+      this.sortActualTempTable();
+      this.sortModelsRaitingTable();
     }
   }
 
-  getPredictedTempRecords() {
-    new ModelService()
-      .getPredictedTempRecords(ModelsValues.WUNDERGROUND)
-      .then((predictedTempRecords) => {
-        this.setState({ predictedTempRecords: predictedTempRecords }, () =>
-          console.log("WUNDER PREDICTED TEMP: ", this.state.predictedTempRecords)
-        );
-      });
-  }
-
-  getActualTempRecords() {
-    new ModelService()
-      .getActualTempRecords(ModelsValues.WUNDERGROUND)
-      .then((actualTempRecords) => {
-        this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log("WUNDER ACTUAL TEMP: ", this.state.actualTempRecords)
-        );
-      });
-  }
-
-  tempDeltaCalculation() {
-    const { predictedTempRecords, actualTempRecords } = this.state;
-
-    let forecastErrorsArray = new ModelService().calculateTempDelta(
-      predictedTempRecords,
-      actualTempRecords
-    );
+  sortPredictedTempTable() {
+    const { predictedTempTable } = this.props;
 
     this.setState(
       {
-        forecastRatingRecords: forecastErrorsArray,
-      },
-      () => {
-        this.insertForecastRatingRecords();
+        predictedTempTable: new ModelService().sortPredictedTempTable(
+          predictedTempTable,
+          ModelsValues.WUNDERGROUND
+        ),
       }
     );
   }
 
-  insertForecastRatingRecords() {
-    const { forecastRatingRecords } = this.state;
+  sortActualTempTable() {
+    const { actualTempTable } = this.props;
 
-    new ModelService().insertForecastRatingRecords(forecastRatingRecords);
+    this.setState(
+      {
+        actualTempTable: new ModelService().sortActualTempTable(
+          actualTempTable,
+          ModelsValues.WUNDERGROUND
+        ),
+      }
+    );
+  }
+
+  sortModelsRaitingTable() {
+    const { modelsRatingTable } = this.props;
+    this.setState(
+      {
+        modelsRatingTable: new ModelService().sortModelsRatingTable(
+          modelsRatingTable,
+          ModelsValues.WUNDERGROUND
+        ),
+      }
+    );
   }
 
   render() {
-    const { customers } = this.state;
+    const { modelsRatingTable } = this.state;
     return (
       <div>
-        This is a Wunderground component
+        <Model modelsRatingTable={modelsRatingTable} />
       </div>
     );
   }

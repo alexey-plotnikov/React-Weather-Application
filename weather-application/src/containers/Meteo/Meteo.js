@@ -9,98 +9,59 @@ class Meteo extends React.Component {
     super(props);
     this.state = {
       customers: [],
-      predictedTempRecords: [],
-      actualTempRecords: [],
-      forecastRatingRecords: [],
-      modelsRatingRecords: [],
+      predictedTempTable: [],
+      actualTempTable: [],
+      modelsRatingTable: [],
     };
   }
 
-  componentDidMount() {
-    this.getPredictedTempRecords();
-    this.getActualTempRecords();
-  }
+  componentDidMount() {}
 
   componentDidUpdate(prevProps) {
-    if (this.props.forecastType !== prevProps.forecastType) {
-      this.tempDeltaCalculation();
+    if (this.props !== prevProps) {
+      this.sortPredictedTempTable();
+      this.sortActualTempTable();
+      this.sortModelsRaitingTable();
     }
   }
 
-  getPredictedTempRecords() {
-    new ModelService()
-      .getPredictedTempRecords(ModelsValues.METEOUA)
-      .then((predictedTempRecords) => {
-        this.setState({ predictedTempRecords: predictedTempRecords }, () =>
-          console.log("METEO PREDICTED TEMP: ", this.state.predictedTempRecords)
-        );
-      });
+  sortPredictedTempTable() {
+    const { predictedTempTable } = this.props;
+
+    this.setState({
+      predictedTempTable: new ModelService().sortPredictedTempTable(
+        predictedTempTable,
+        ModelsValues.METEOUA
+      ),
+    });
   }
 
-  getActualTempRecords() {
-    new ModelService()
-      .getActualTempRecords(ModelsValues.METEOUA)
-      .then((actualTempRecords) => {
-        this.setState({ actualTempRecords: actualTempRecords }, () =>
-          console.log("METEO ACTUAL TEMP: ", this.state.actualTempRecords)
-        );
-      });
+  sortActualTempTable() {
+    const { actualTempTable } = this.props;
+
+    this.setState({
+      actualTempTable: new ModelService().sortActualTempTable(
+        actualTempTable,
+        ModelsValues.METEOUA
+      ),
+    });
   }
 
-  tempDeltaCalculation() {
-    const { predictedTempRecords, actualTempRecords } = this.state;
-
-    let forecastErrorsArray = new ModelService().calculateTempDelta(
-      predictedTempRecords,
-      actualTempRecords
-    );
-
-    this.setState(
-      {
-        forecastRatingRecords: forecastErrorsArray,
-      },
-      () => {
-        this.insertForecastRatingRecords();
-      }
-    );
+  sortModelsRaitingTable() {
+    const { modelsRatingTable } = this.props;
+    this.setState({
+      modelsRatingTable: new ModelService().sortModelsRatingTable(
+        modelsRatingTable,
+        ModelsValues.METEOUA
+      ),
+    });
   }
-
-  insertForecastRatingRecords = () => {
-    const { forecastRatingRecords } = this.state;
-
-    new ModelService().insertForecastRatingRecords(forecastRatingRecords);
-
-    this.insertModelsRatingRecords();
-  };
-
-  insertModelsRatingRecords = () => {
-    new ModelService().insertModelsRatingRecords();
-
-    this.getModelsRatingRecords();
-  };
-
-  getModelsRatingRecords = () => {
-    new ModelService()
-      .getModelsRatingRecords(ModelsValues.METEOUA)
-      .then((modelsRatingRecords) =>
-        new ModelService().getModelsRatingRecords(ModelsValues.METEOUA)
-      )
-      .then((modelsRatingRecords) => {
-        this.setState({ modelsRatingRecords: modelsRatingRecords }, () =>
-          console.log(
-            "METEO modelsRatingRecords: ",
-            this.state.modelsRatingRecords
-          )
-        );
-      });
-  };
 
   render() {
-    const { modelsRatingRecords } = this.state;
+    const { modelsRatingTable } = this.state;
     return (
       <div>
-        This is a Meteo component
-        <Model modelsRatingRecords={modelsRatingRecords} />
+        <Model modelsRatingTable={modelsRatingTable} />
       </div>
     );
   }

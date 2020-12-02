@@ -11,14 +11,16 @@ class ModelService extends React.Component {
   }
 
   sortActualTempTable(actualTempTable, modelId) {
-    let result = actualTempTable.filter((record) => record.model_id == modelId);
+    let result = actualTempTable.filter(
+      (record) => record.model_id === modelId
+    );
 
     return result;
   }
 
   sortModelsRatingTable(modelsRatingTable, modelId) {
     let result = modelsRatingTable.filter(
-      (record) => record.model_id == modelId
+      (record) => record.model_id === modelId
     );
 
     return result;
