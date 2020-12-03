@@ -1,13 +1,9 @@
 import React from "react";
 
-import Accuweather from "containers/Accuweather/Accuweather";
-import Wunderground from "containers/Wunderground/Wunderground";
-import Meteo from "containers/Meteo/Meteo";
-import OpenWeatherMap from "containers/OpenWeatherMap/OpenWeatherMap";
-import Yrno from "containers/Yr.no/YrNo";
+import CurrentView from "containers/CurrentView/CurrentView";
 
+import { MenuValues } from "common/menuValues";
 import Menu from "components/Menu/Menu";
-import YandexPogoda from "containers/Yandex.Pogoda/YandexPogoda";
 
 class Content extends React.Component {
   constructor() {
@@ -17,7 +13,7 @@ class Content extends React.Component {
       actualTempTable: [],
       forecastRatingTable: [],
       modelsRatingTable: [],
-      currentForecastType: null,
+      currentView: MenuValues.TABLES_VIEW,
     };
   }
 
@@ -51,9 +47,8 @@ class Content extends React.Component {
           {
             actualTempTable: jsonData,
           },
-          async () => {
+          () => {
             this.sortForecastRating();
-            this.insertModelsRatingRecords();
           }
         );
       })
@@ -69,7 +64,13 @@ class Content extends React.Component {
 
     predictedTempTable.forEach((predictedTempRecord) => {
       actualTempTable.some((actualTempRecord) => {
-        if (actualTempRecord.forecast_id === predictedTempRecord.forecast_id) {
+        if (
+          actualTempRecord.model_id === predictedTempRecord.model_id &&
+          actualTempRecord.forecast_date ===
+            predictedTempRecord.forecast_date &&
+          actualTempRecord.forecast_type_id ===
+            predictedTempRecord.forecast_type_id
+        ) {
           let tempMaxDelta = Math.abs(
             actualTempRecord.actual_temp_max -
               predictedTempRecord.predicted_temp_max
@@ -79,8 +80,10 @@ class Content extends React.Component {
               predictedTempRecord.predicted_temp_min
           );
           forecastRatingArray.push({
-            forecast_id: predictedTempRecord.forecast_id,
             model_id: predictedTempRecord.model_id,
+            forecast_date: new Date(
+              predictedTempRecord.forecast_date
+            ).toLocaleDateString("en-CA"),
             forecast_type_id: predictedTempRecord.forecast_type_id,
             temp_max_delta: tempMaxDelta,
             temp_min_delta: tempMinDelta,
@@ -98,6 +101,7 @@ class Content extends React.Component {
       },
       () => {
         this.insertForecastRatingRecords();
+        this.insertModelsRatingRecords();
       }
     );
   }
@@ -154,11 +158,11 @@ class Content extends React.Component {
       });
   }
 
-  handleForecastType(type) {
+  loadView(view) {
     this.selectModelsRatingTable();
 
     this.setState({
-      currentForecastType: type,
+      currentView: view,
     });
   }
 
@@ -168,37 +172,13 @@ class Content extends React.Component {
       predictedTempTable,
       actualTempTable,
       modelsRatingTable,
+      currentView,
     } = this.state;
     return (
       <div>
-        <Menu handleForecastType={(type) => this.handleForecastType(type)} />
-        <Accuweather
-          predictedTempTable={predictedTempTable}
-          actualTempTable={actualTempTable}
-          modelsRatingTable={modelsRatingTable}
-          forecastType={currentForecastType}
-        />
-        <Wunderground
-          predictedTempTable={predictedTempTable}
-          actualTempTable={actualTempTable}
-          modelsRatingTable={modelsRatingTable}
-        />
-        <Meteo
-          predictedTempTable={predictedTempTable}
-          actualTempTable={actualTempTable}
-          modelsRatingTable={modelsRatingTable}
-        />
-        <OpenWeatherMap
-          predictedTempTable={predictedTempTable}
-          actualTempTable={actualTempTable}
-          modelsRatingTable={modelsRatingTable}
-        />
-        <Yrno
-          predictedTempTable={predictedTempTable}
-          actualTempTable={actualTempTable}
-          modelsRatingTable={modelsRatingTable}
-        />
-        <YandexPogoda
+        <Menu loadView={(view) => this.loadView(view)} />
+        <CurrentView
+          view={currentView}
           predictedTempTable={predictedTempTable}
           actualTempTable={actualTempTable}
           modelsRatingTable={modelsRatingTable}

@@ -18,6 +18,7 @@
 .model__table-item:hover{
     font-weight: bold;
     color: #009879;
+    cursor: pointer;
 }
 
 .model__table-item__col {

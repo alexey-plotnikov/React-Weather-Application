@@ -11,31 +11,25 @@ import { MenuValues } from "common/menuValues";
 import { MenuConstants, ModelConstants } from "common/constants";
 
 const Menu = (props) => {
-  const { handleForecastType } = props;
+  const { loadView } = props;
   return (
     <div>
       <Container fluid className="menu">
-        <Row>
-          <Col xs={6}>
-            <Button
-              className="confirm-button"
-              variant="secondary"
-              onClick={() => handleForecastType(MenuValues.ONE_DAY_FORECAST)}
-            >
-              {MenuConstants.ONE_DAY_FORECAST}
-            </Button>
+        <Row xs={2} md={4} lg={6}>
+          <Col
+            className="menu__tables-view-button button button-test"
+            onClick={() => loadView(MenuValues.TABLES_VIEW)}
+          >
+            {MenuConstants.ONE_DAY_FORECAST}
           </Col>
-          <Col>
-            <Button
-              className="confirm-button"
-              variant="secondary"
-              onClick={() => handleForecastType(MenuValues.WEEK_FORECAST)}
-            >
-              {MenuConstants.WEEK_FORECAST}
-            </Button>
+          <Col
+            className="menu__models-rating-button button button-test"
+            onClick={() => loadView(MenuValues.MODELS_RATING)}
+          >
+            {MenuConstants.WEEK_FORECAST}
           </Col>
         </Row>
-        <Row className="menu__table-header">
+        <Row className="menu__table-header align-items-center">
           <Col>{ModelConstants.FORECAST_TYPE_DESCRIPTION}</Col>
           <Col>{ModelConstants.AVG_TEMP_MAX_DELTA}</Col>
           <Col>{ModelConstants.AVG_TEMP_MIN_DELTA}</Col>

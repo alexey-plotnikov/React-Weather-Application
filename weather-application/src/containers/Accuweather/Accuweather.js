@@ -2,7 +2,7 @@ import React from "react";
 
 import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
-import { ModelsValues, PredictedTemp } from "common/databaseValues";
+import { ModelsValues } from "common/databaseValues";
 
 class Accuweather extends React.Component {
   constructor(props) {
@@ -28,39 +28,33 @@ class Accuweather extends React.Component {
   sortPredictedTempTable() {
     const { predictedTempTable } = this.props;
 
-    this.setState(
-      {
-        predictedTempTable: new ModelService().sortPredictedTempTable(
-          predictedTempTable,
-          ModelsValues.ACCUWEATHER
-        ),
-      }
-    );
+    this.setState({
+      predictedTempTable: new ModelService().sortPredictedTempTable(
+        predictedTempTable,
+        ModelsValues.ACCUWEATHER
+      ),
+    });
   }
 
   sortActualTempTable() {
     const { actualTempTable } = this.props;
 
-    this.setState(
-      {
-        actualTempTable: new ModelService().sortActualTempTable(
-          actualTempTable,
-          ModelsValues.ACCUWEATHER
-        ),
-      }
-    );
+    this.setState({
+      actualTempTable: new ModelService().sortActualTempTable(
+        actualTempTable,
+        ModelsValues.ACCUWEATHER
+      ),
+    });
   }
 
   sortModelsRaitingTable() {
     const { modelsRatingTable } = this.props;
-    this.setState(
-      {
-        modelsRatingTable: new ModelService().sortModelsRatingTable(
-          modelsRatingTable,
-          ModelsValues.ACCUWEATHER
-        ),
-      }
-    );
+    this.setState({
+      modelsRatingTable: new ModelService().sortModelsRatingTable(
+        modelsRatingTable,
+        ModelsValues.ACCUWEATHER
+      ),
+    });
   }
 
   render() {

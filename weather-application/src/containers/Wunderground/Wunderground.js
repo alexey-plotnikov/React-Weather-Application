@@ -2,7 +2,7 @@ import React from "react";
 
 import Model from "components/Model/Model";
 import ModelService from "service/ModelService";
-import { ModelsValues, PredictedTemp } from "common/databaseValues";
+import { ModelsValues } from "common/databaseValues";
 
 class Wunderground extends React.Component {
   constructor(props) {
@@ -28,39 +28,33 @@ class Wunderground extends React.Component {
   sortPredictedTempTable() {
     const { predictedTempTable } = this.props;
 
-    this.setState(
-      {
-        predictedTempTable: new ModelService().sortPredictedTempTable(
-          predictedTempTable,
-          ModelsValues.WUNDERGROUND
-        ),
-      }
-    );
+    this.setState({
+      predictedTempTable: new ModelService().sortPredictedTempTable(
+        predictedTempTable,
+        ModelsValues.WUNDERGROUND
+      ),
+    });
   }
 
   sortActualTempTable() {
     const { actualTempTable } = this.props;
 
-    this.setState(
-      {
-        actualTempTable: new ModelService().sortActualTempTable(
-          actualTempTable,
-          ModelsValues.WUNDERGROUND
-        ),
-      }
-    );
+    this.setState({
+      actualTempTable: new ModelService().sortActualTempTable(
+        actualTempTable,
+        ModelsValues.WUNDERGROUND
+      ),
+    });
   }
 
   sortModelsRaitingTable() {
     const { modelsRatingTable } = this.props;
-    this.setState(
-      {
-        modelsRatingTable: new ModelService().sortModelsRatingTable(
-          modelsRatingTable,
-          ModelsValues.WUNDERGROUND
-        ),
-      }
-    );
+    this.setState({
+      modelsRatingTable: new ModelService().sortModelsRatingTable(
+        modelsRatingTable,
+        ModelsValues.WUNDERGROUND
+      ),
+    });
   }
 
   render() {

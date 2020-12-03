@@ -1,5 +1,4 @@
 import React from "react";
-import predictedTempRecords from "server/db/predictedTemp";
 
 class ModelService extends React.Component {
   sortPredictedTempTable(predictedTempTable, modelId) {

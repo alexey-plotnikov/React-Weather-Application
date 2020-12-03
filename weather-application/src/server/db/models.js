@@ -62,7 +62,10 @@ const insertModelsRating = async (params) => {
         avg(${ForecastRating.RATING_MAX}) as avg_max_temp_rating, 
         avg(${ForecastRating.RATING_MIN}) as avg_min_temp_rating 
         from ${PredictedTemp.TABLE_NAME}, ${ForecastRating.TABLE_NAME} 
-      where ${PredictedTemp.FORECAST_ID} = ${ForecastRating.FORECAST_ID} group by model_id, forecast_type_id) as result
+      where 
+      ${PredictedTemp.MODEL_ID} = ${ForecastRating.MODEL_ID} AND  
+      ${PredictedTemp.FORECAST_DATE} = ${ForecastRating.FORECAST_DATE} AND 
+      ${PredictedTemp.FORECAST_TYPE_ID} = ${ForecastRating.FORECAST_TYPE_ID} group by model_id, forecast_type_id) as result
       on duplicate key update 
       avg_max_temp_delta = result.avg_max_temp_delta, 
       avg_min_temp_delta = result.avg_min_temp_delta, 
