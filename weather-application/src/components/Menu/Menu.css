@@ -1,29 +1,30 @@
 .menu {
-    overflow: hidden;
-    background-color: #333;
-    position: sticky;
-    top: 0;
+  background-color: #333;
+  height: 60px;
 }
 
-.menu__table-header {
-    background-color: #009879;
-    color: #ffffff;
-    font-weight: bold;
-}
-
-.button-test { 
-    border: 2px solid black;
+.menu__buttons {
+  height: 100%;
 }
 
 .button {
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #f2f2f2;
+  text-align: center;
+  font-family: "Roboto Regular";
+  font-size: 1em;
 }
 
 .button:hover {
-    background: #ddd;
-    color: black;
+  cursor: pointer;
+  background: #ddd;
+  color: black;
+}
+
+.active-button {
+  background: #ddd;
+  color: black;
 }

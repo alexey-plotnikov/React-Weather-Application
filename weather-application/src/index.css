@@ -20,3 +20,17 @@ ul {
 ul li {
   list-style-type: none;
 }
+
+@font-face {
+  font-family: "Roboto Regular";
+  src: local("Roboto Regular"),
+    url(assets/fonts/Roboto/Roboto-Regular.ttf)
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto Medium";
+  src: local("Roboto Medium"),
+    url(assets/fonts/Roboto/Roboto-Medium.ttf)
+      format("truetype");
+}

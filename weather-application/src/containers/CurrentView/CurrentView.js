@@ -1,5 +1,6 @@
 import React from "react";
 
+import Tables from "containers/Tables/Tables";
 import Accuweather from "containers/Accuweather/Accuweather";
 import Wunderground from "containers/Wunderground/Wunderground";
 import Meteo from "containers/Meteo/Meteo";
@@ -19,7 +20,12 @@ class CurrentView extends React.Component {
     } = this.props;
 
     if (view === MenuValues.TABLES_VIEW) {
-      return <div>TABLES VIEW </div>;
+      return (
+        <Tables
+          predictedTempTable={predictedTempTable}
+          actualTempTable={actualTempTable}
+        />
+      );
     } else if (view === MenuValues.MODELS_RATING) {
       return (
         <div>

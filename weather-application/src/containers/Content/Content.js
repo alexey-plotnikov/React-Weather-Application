@@ -14,6 +14,7 @@ class Content extends React.Component {
       forecastRatingTable: [],
       modelsRatingTable: [],
       currentView: MenuValues.TABLES_VIEW,
+      activeButton: MenuValues.TABLES_VIEW,
     };
   }
 
@@ -163,6 +164,7 @@ class Content extends React.Component {
 
     this.setState({
       currentView: view,
+      activeButton: view
     });
   }
 
@@ -173,10 +175,14 @@ class Content extends React.Component {
       actualTempTable,
       modelsRatingTable,
       currentView,
+      activeButton,
     } = this.state;
     return (
       <div>
-        <Menu loadView={(view) => this.loadView(view)} />
+        <Menu
+          loadView={(view) => this.loadView(view)}
+          activeBtn={activeButton}
+        />
         <CurrentView
           view={currentView}
           predictedTempTable={predictedTempTable}

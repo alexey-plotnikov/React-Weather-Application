@@ -4,37 +4,40 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 
 import "./Menu.css";
 import { MenuValues } from "common/menuValues";
-import { MenuConstants, ModelConstants } from "common/constants";
+import { MenuConstants } from "common/constants";
 
 const Menu = (props) => {
-  const { loadView } = props;
+  const { loadView, activeBtn } = props;
+
+  const activeButton = (type) => {
+    if (type === activeBtn) {
+      return MenuConstants.ACTIVE_BUTTON;
+    }
+  };
+
   return (
     <div>
       <Container fluid className="menu">
-        <Row xs={2} md={4} lg={6}>
+        <Row xs={2} md={4} lg={6} className="menu__buttons">
           <Col
-            className="menu__tables-view-button button button-test"
+            className={`menu__tables-view-button button ${activeButton(
+              MenuValues.TABLES_VIEW
+            )}`}
             onClick={() => loadView(MenuValues.TABLES_VIEW)}
           >
-            {MenuConstants.ONE_DAY_FORECAST}
+            {MenuConstants.TABLES_VIEW}
           </Col>
           <Col
-            className="menu__models-rating-button button button-test"
+            className={`menu__models-rating-button button ${activeButton(
+              MenuValues.MODELS_RATING
+            )}`}
             onClick={() => loadView(MenuValues.MODELS_RATING)}
           >
-            {MenuConstants.WEEK_FORECAST}
+            {MenuConstants.MODELS_RATING_VIEW}
           </Col>
-        </Row>
-        <Row className="menu__table-header align-items-center">
-          <Col>{ModelConstants.FORECAST_TYPE_DESCRIPTION}</Col>
-          <Col>{ModelConstants.AVG_TEMP_MAX_DELTA}</Col>
-          <Col>{ModelConstants.AVG_TEMP_MIN_DELTA}</Col>
-          <Col>{ModelConstants.AVG_MAX_TEMP_RATING}</Col>
-          <Col>{ModelConstants.AVG_MIN_TEMP_RATING}</Col>
         </Row>
       </Container>
     </div>
