@@ -11,7 +11,7 @@ export const ModelConstants = {
   AVG_TEMP_MAX_DELTA: "Аverage maximum temperature difference",
   AVG_TEMP_MIN_DELTA: "Аverage minimum temperature difference",
   AVG_MAX_TEMP_RATING: "Average maximum temperature rating",
-  AVG_MIN_TEMP_RATING: "Average maximum temperature rating",
+  AVG_MIN_TEMP_RATING: "Average minimum temperature rating",
 };
 
 export const PredictedTempTableConstants = {
