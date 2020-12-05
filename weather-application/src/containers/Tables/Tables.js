@@ -1,38 +1,22 @@
 import React from "react";
 
-import PredictedTempTable from "components/TablesView/PredictedTempTable";
+import PredictedTempTable from "components/PredictedTempTable/PredictedTempTable";
+import ActualTempTable from "components/ActualTempTable/ActualTempTable";
+import ForecastRatingTable from "components/ForecastRatingTable/ForecastRatingTable"
 
 class Tables extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      predictedTempTable: [],
-      actualTempTable: [],
-      modelsRatingTable: [],
-    };
-  }
-
-  componentDidMount() {
-      this.getPredictedTempTable();
-  }
-
-  getPredictedTempTable() {
-      const {predictedTempTable} = this.props;
-
-      this.setState({
-        predictedTempTable: predictedTempTable
-      })
-  }
-
   render() {
     const {
       predictedTempTable,
       actualTempTable,
+      forecastRatingTable,
       modelsRatingTable,
-    } = this.state;
+    } = this.props;
     return (
       <div>
-        <PredictedTempTable predictedTempTable={this.props.predictedTempTable} />
+        <PredictedTempTable predictedTempTable={predictedTempTable} />
+        <ActualTempTable actualTempTable={actualTempTable} />
+        <ForecastRatingTable forecastRatingTable={forecastRatingTable} />
       </div>
     );
   }

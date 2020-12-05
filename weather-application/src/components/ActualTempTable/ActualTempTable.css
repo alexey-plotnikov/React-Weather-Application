@@ -1,24 +1,28 @@
-.predicted-temp {
+.actual-temp {
   margin-top: 30px;
   margin-bottom: 30px;
   height: 350px;
   overflow: auto;
 }
 
-.predicted-temp__header {
+.actual-temp__header {
   font-family: "Roboto Medium";
   text-align: left;
   font-size: 2em;
+  border: 1px solid #333;
+  background-color: #009879;
+  color: #ffffff;
+  margin-bottom: 3px;
 }
 
-.predicted-temp__table-header {
+.actual-temp__table-header {
   height: 80px;
   border: 1px solid #333;
   background-color: #009879;
   color: #ffffff;
 }
 
-.predicted-temp-table__table-header__table-col {
+.actual-temp-table__table-header__table-col {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,17 +35,17 @@
   border-left: 1px solid #333;
 }
 
-.predicted-temp-table__table-header__table-col:first-child {
+.actual-temp-table__table-header__table-col:first-child {
   border: none;
 }
 
-.predicted-temp-table__table-row {
+.actual-temp-table__table-row {
   margin-top: 3px;
   height: 40px;
   border: 1px solid #333;
 }
 
-.predicted-temp-table__table-row__table-col {
+.actual-temp-table__table-row__table-col {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,6 +56,6 @@
   border-left: 1px solid #333;
 }
 
-.predicted-temp-table__table-row__table-col:first-child {
+.actual-temp-table__table-row__table-col:first-child {
   border-left: none;
 }

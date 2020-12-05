@@ -8,7 +8,7 @@ import { PredictedTempTableConstants } from "common/constants";
 
 import "./PredictedTempTable.css";
 
-const Tables = (props) => {
+const PredictedTempTable = (props) => {
   const { predictedTempTable } = props;
 
   return (
@@ -30,17 +30,19 @@ const Tables = (props) => {
           {PredictedTempTableConstants.PREDICTED_TEMP_MIN}
         </Col>
         <Col className="predicted-temp-table__table-header__table-col">
-          {PredictedTempTableConstants.FORECAST_TYPE_ID}
+          {PredictedTempTableConstants.FORECAST_TYPE}
         </Col>
       </Row>
       <ul className="list">
         {predictedTempTable.map(
           ({
             model_id,
+            model_name,
             forecast_date,
             predicted_temp_max,
             predicted_temp_min,
             forecast_type_id,
+            type_description
           }) => (
             <li
               key={
@@ -51,7 +53,7 @@ const Tables = (props) => {
             >
               <Row className="predicted-temp-table__table-row">
                 <Col className="predicted-temp-table__table-row__table-col">
-                  {model_id}
+                  {model_name}
                 </Col>
                 <Col className="predicted-temp-table__table-row__table-col">
                   {new Date(forecast_date).toLocaleDateString("en-CA")}
@@ -63,7 +65,7 @@ const Tables = (props) => {
                   {predicted_temp_min}
                 </Col>
                 <Col className="predicted-temp-table__table-row__table-col">
-                  {forecast_type_id}
+                  {type_description}
                 </Col>
               </Row>
             </li>
@@ -74,4 +76,4 @@ const Tables = (props) => {
   );
 };
 
-export default Tables;
+export default PredictedTempTable;

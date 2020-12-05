@@ -82,6 +82,7 @@ class Content extends React.Component {
           );
           forecastRatingArray.push({
             model_id: predictedTempRecord.model_id,
+            model_name: predictedTempRecord.model_name,
             forecast_date: new Date(
               predictedTempRecord.forecast_date
             ).toLocaleDateString("en-CA"),
@@ -90,6 +91,7 @@ class Content extends React.Component {
             temp_min_delta: tempMinDelta,
             rating_max: this.calculateForecastRating(tempMaxDelta),
             rating_min: this.calculateForecastRating(tempMinDelta),
+            type_description: predictedTempRecord.type_description,
           });
         }
         return 0;
@@ -173,6 +175,7 @@ class Content extends React.Component {
       currentForecastType,
       predictedTempTable,
       actualTempTable,
+      forecastRatingTable,
       modelsRatingTable,
       currentView,
       activeButton,
@@ -187,6 +190,7 @@ class Content extends React.Component {
           view={currentView}
           predictedTempTable={predictedTempTable}
           actualTempTable={actualTempTable}
+          forecastRatingTable={forecastRatingTable}
           modelsRatingTable={modelsRatingTable}
         />
       </div>

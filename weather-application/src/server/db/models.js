@@ -57,10 +57,10 @@ const insertModelsRating = async (params) => {
       from (select 
         ${PredictedTemp.MODEL_ID}, 
         ${PredictedTemp.FORECAST_TYPE_ID}, 
-        avg(${ForecastRating.TEMP_MAX_DELTA}) as avg_max_temp_delta, 
-        avg(${ForecastRating.TEMP_MIN_DELTA}) as avg_min_temp_delta, 
-        avg(${ForecastRating.RATING_MAX}) as avg_max_temp_rating, 
-        avg(${ForecastRating.RATING_MIN}) as avg_min_temp_rating 
+        ROUND(avg(${ForecastRating.TEMP_MAX_DELTA}), 2) as avg_max_temp_delta, 
+        ROUND(avg(${ForecastRating.TEMP_MIN_DELTA}), 2) as avg_min_temp_delta, 
+        ROUND(avg(${ForecastRating.RATING_MAX}), 2) as avg_max_temp_rating, 
+        ROUND(avg(${ForecastRating.RATING_MIN}), 2) as avg_min_temp_rating 
         from ${PredictedTemp.TABLE_NAME}, ${ForecastRating.TABLE_NAME} 
       where 
       ${PredictedTemp.MODEL_ID} = ${ForecastRating.MODEL_ID} AND  

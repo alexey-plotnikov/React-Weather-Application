@@ -16,6 +16,7 @@ class CurrentView extends React.Component {
       predictedTempTable,
       actualTempTable,
       modelsRatingTable,
+      forecastRatingTable,
       view,
     } = this.props;
 
@@ -24,6 +25,7 @@ class CurrentView extends React.Component {
         <Tables
           predictedTempTable={predictedTempTable}
           actualTempTable={actualTempTable}
+          forecastRatingTable={forecastRatingTable}
         />
       );
     } else if (view === MenuValues.MODELS_RATING) {
